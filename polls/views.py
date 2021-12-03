@@ -20,7 +20,11 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return the last five published questions."""
         response = requests.get(restify("/questions/"))
-        questions = response.json()
+        temp = response.json()
+        questions = []
+        for question in temp:
+            if not question['closed']:
+                questions.append(question)
         return questions[:5]
 
 
