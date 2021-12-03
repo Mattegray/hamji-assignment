@@ -3,12 +3,24 @@
     <fieldset>
         <legend><h1>{{ question.question_text }}</h1></legend>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        {% for choice in question.choice_set.all %}
-            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-        {% endfor %}
+        {% if not question.choice_set.all %}
+            No choices...
+            <br><br>
+        {% else %}
+            {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            {% endfor %}
+        {% endif %}
+
     </fieldset>
+    <br>
     <input type="submit" value="Vote">
+</form>
+<form action="{% url 'polls:choice' question.id %}" method="post">
+    {{ choice_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Suggest choice"></p>
 </form>
 <hr>
 <!-- Comments Form -->

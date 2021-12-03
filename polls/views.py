@@ -10,7 +10,7 @@ from utils.url import restify
 from .models import Choice, Question, Comment
 from .serializers import QuestionSerializer
 
-from .forms import CommentForm
+from .forms import CommentForm, ChoiceForm
 
 
 class IndexView(generic.ListView):
@@ -101,6 +101,30 @@ def comment(request, question_id):
                    'comments': comments,
                    'new_comment': new_comment,
                    'comment_form': comment_form})
+
+
+def choice(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    new_choice = None
+    if request.method == 'POST':
+        # A comment was posted
+        choice_form = ChoiceForm(data=request.POST)
+        if choice_form.is_valid():
+            # Create Comment object but don't save to database yet
+            new_choice = choice_form.save(commit=False)
+            # Assign the current question to the comment
+            new_choice.question = question
+            # Save the comment to the database
+            new_choice.save()
+            return HttpResponseRedirect(reverse("polls:detail", args=(question.id,)))
+    else:
+        choice_form = ChoiceForm()
+    return render(request,
+                  'polls/detail.html',
+                  {'question': question,
+                   'new_choice': new_choice,
+                   'choice_form': choice_form})
+
 # API
 # ===
 
