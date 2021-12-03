@@ -28,7 +28,7 @@ python manage.py runserver
 1.  [ ] Raise 404 if no matching question
 2.  [ ] Show only questions that are published and not yet closed
 3.  [x] Enable to comment on question
-4.  [ ] Enable to comment on comment
+4.  [x] Enable to comment on comment
 5.  [ ] Enable to suggest new choice for question
 6.  [ ] Limit the number of choices that can be suggested on one question
 7.  [ ] Extends `Question.closed_at` by one day, when new choice is suggested for that question

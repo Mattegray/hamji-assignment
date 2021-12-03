@@ -60,18 +60,35 @@ def vote(request, question_id):
 def comment(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     # List of active comments for this post
-    comments = question.comments.all
+    comments = question.comments.all()
     new_comment = None
     if request.method == 'POST':
         # A comment was posted
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
+            # get parent comment id from hidden input
+            try:
+                # id integer e.g. 15
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            # if parent_id has been submitted get parent_obj id
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                # if parent object exist
+                if parent_obj:
+                    # create replay comment object
+                    replay_comment = comment_form.save(commit=False)
+                    # assign parent_obj to replay comment
+                    replay_comment.parent = parent_obj
+                    ###
             # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
+            # Assign the current question to the comment
             new_comment.question = question
             # Save the comment to the database
             new_comment.save()
+            return HttpResponseRedirect(reverse("polls:detail", args=(question.id,)))
     else:
         comment_form = CommentForm()
     return render(request,

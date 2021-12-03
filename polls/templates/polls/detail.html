@@ -1,31 +1,58 @@
 <form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-<fieldset>
-    <legend><h1>{{ question.question_text }}</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-</fieldset>
-<input type="submit" value="Vote">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
 </form>
 <hr>
+<!-- Comments Form -->
 <h2>Comments</h2>
-{% if not question.comments.all %}
-    No comments yet...
-{% else %}
-    {% for comment in question.comments.all %}
-        <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+<ul>
+    <form action="{% url 'polls:comment' question.id %}" method="post">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Add comment"></p>
+    </form>
+    {% if not question.comments.all %}
+        No comments yet...
         <br>
-        {{ comment.body }}
-        <br><br>
-    {% endfor %}
-{% endif %}
-  <form action="{% url 'polls:comment' question.id %}" method="post">
-    {{ comment_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Add comment"></p>
-  </form>
-<br>
+    {% else %}
+        {% for comment in question.comments.all %}
+            {% if comment.parent is blank %}
+                <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+                <br>
+                {{ comment.body }}
+                <br><br>
+                <ul>
+                    <!-- Comment with nested comments -->
+                    <form action="{% url 'polls:comment' question.id %}" method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <!-- Hidden input for parent comment.id -->
+                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        <input type="submit" value="Reply">
+                    </form>
+                    {% if not comment.replies.all %}
+                        No replies yet...
+                        <br><br>
+                    {% else %}
+                        {% for reply in comment.replies.all %}
+                            <strong>{{ reply.name }} - {{ reply.date_added }}</strong>
+                            <br>
+                            {{ reply.body }}
+                            <br><br>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <br>
+</ul>
 <hr>
