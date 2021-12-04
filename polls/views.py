@@ -115,7 +115,18 @@ def choice(request, question_id):
             # Assign the current question to the comment
             new_choice.question = question
             # Save the comment to the database
-            new_choice.save()
+            try:
+                new_choice.save()
+            except ValueError:
+                return render(
+                    request,
+                    "polls/detail.html",
+                    {
+                        "question": question,
+                        "error_message": "There are already more than 5 choices.",
+                    },
+                )
+
             return HttpResponseRedirect(reverse("polls:detail", args=(question.id,)))
     else:
         choice_form = ChoiceForm()

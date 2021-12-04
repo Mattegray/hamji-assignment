@@ -64,7 +64,15 @@ python manage.py runserver
      * `polls/urls.py`
      * `polls/views.py`
      * `polls/templates/polls/detail.html`
-6. [ ] Limit the number of choices that can be suggested on one question
+6. [x] Limit the number of choices that can be suggested on one question
+   * Added `signals.py` to use the `pre_save` signal to check and limit number of choices before save
+   * Connected signals with apps and init
+   * Modified `choice()` function to render error message if limit is reached
+   * Changes in:
+     * `apps.py`
+     * `__init__.py`
+     * `signals.py`
+     * `views.py`
 7. [ ] Extends `Question.closed_at` by one day, when new choice is suggested for that question
      - Requirements:
          - Use Django signal/receiver system
