@@ -63,7 +63,7 @@ ROOT_URLCONF = "hamji.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [str(BASE_DIR.joinpath('templates'))],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,3 +136,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]
 }
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

@@ -90,6 +90,15 @@ python manage.py runserver
      * `polls/views.py`
      * `polls/signals.py`
 10. [ ] Implement login system
+    * Used the `auth` app to implement login
+    * Added templates for the login system and added url and link in settings
+    * Changes in:
+      * `hamji/settings.py`
+      * `hamji/urls.py`
+    * New files:
+      * `templates/registration/login.html`
+      * `templates/base.html`
+      * `templates/home.html`
 11. [ ] Implement system that a question creator can approve suggested choices
 12. [ ] Implement global search for questions and choices
 
