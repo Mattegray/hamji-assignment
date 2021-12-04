@@ -69,21 +69,26 @@ python manage.py runserver
    * Connected signals with apps and init
    * Modified `choice()` function to render error message if limit is reached
    * Changes in:
-     * `apps.py`
-     * `__init__.py`
-     * `signals.py`
-     * `views.py`
+     * `polls/apps.py`
+     * `polls/__init__.py`
+     * `polls/signals.py`
+     * `polls/views.py`
 7. [x] Extends `Question.closed_at` by one day, when new choice is suggested for that question
      - Requirements:
          - Use Django signal/receiver system
            * Added `post_save` signal in signals to extend the date by one day
            * Changes in:
-             * `signals.py`
+             * `polls/signals.py`
 8. [x] In `/polls/`, fetch only 5 questions through REST API
    * Modified `get_queryset()` in views to get 5 last published questions
    * Changes in:
      * `polls/views.py`
-9. [ ] Handle race condition on handling "vote" action
+9. [x] Handle race condition on handling "vote" action
+   * Modified to increment `vote` as `F()` object to avoid race condition
+   * Modified signal receiver to raise error only when inserting choice, not when updating it
+   * Changes in:
+     * `polls/views.py`
+     * `polls/signals.py`
 10. [ ] Implement login system
 11. [ ] Implement system that a question creator can approve suggested choices
 12. [ ] Implement global search for questions and choices

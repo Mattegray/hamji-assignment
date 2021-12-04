@@ -11,8 +11,9 @@ LIMIT = 5;
 
 @receiver(pre_save, sender=Choice)
 def save_choice(sender, instance, **kwargs):
-    if instance.question.choice_set.count() >= LIMIT:
-        raise ValueError()
+    if instance._state.adding:
+        if instance.question.choice_set.count() >= LIMIT:
+            raise ValueError()
 
 
 @receiver(post_save, sender=Choice)
