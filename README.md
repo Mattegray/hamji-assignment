@@ -73,9 +73,12 @@ python manage.py runserver
      * `__init__.py`
      * `signals.py`
      * `views.py`
-7. [ ] Extends `Question.closed_at` by one day, when new choice is suggested for that question
+7. [x] Extends `Question.closed_at` by one day, when new choice is suggested for that question
      - Requirements:
          - Use Django signal/receiver system
+           * Added `post_save` signal in signals to extend the date by one day
+           * Changes in:
+             * `signals.py`
 8. [x] In `/polls/`, fetch only 5 questions through REST API
    * Modified `get_queryset()` in views to get 5 last published questions
    * Changes in:
