@@ -18,11 +18,8 @@ def save_choice(sender, instance, **kwargs):
 @receiver(post_save, sender=Choice)
 def extend_closed(sender, instance, **kwargs):
     if instance.question.closed_at:
-        print(instance.question.closed_at)
         instance.question.closed_at += datetime.timedelta(days=1)
         instance.question.save()
-        print(instance.question.closed_at)
     else:
         instance.question.closed_at = timezone.now()
         instance.question.save()
-        print(instance.question.closed_at)
