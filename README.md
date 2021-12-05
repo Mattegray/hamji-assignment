@@ -23,6 +23,18 @@ python manage.py runserver
 ```
 - Now that the server’s running, visit http://127.0.0.1:8000/polls/ with your Web browser
 
+## Users
+### Superuser
+ - Username: matt
+ - Password: matt123
+### Common users
+ - Username: user2
+ - Password: thisisuser2password
+
+
+ - Username: user3
+ - Password: thisisuser3password
+
 
 ## TODO
 1. [x] Raise 404 if no matching question
