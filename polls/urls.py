@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote, name='vote'),
     path('<int:question_id>/choice/', views.choice, name='choice'),
     path('<int:question_id>/comment/', views.comment, name='comment'),
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
 ]

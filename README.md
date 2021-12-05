@@ -109,5 +109,12 @@ python manage.py runserver
         * `accounts/`
         * `templates/registration/signup.html`
 11. [ ] Implement system that a question creator can approve suggested choices
-12. [ ] Implement global search for questions and choices
-
+12. [x] Implement global search for questions and choices
+    * Added `search_results` template and search box to show the result and added url
+    * Added `SearchResultsView` in views and override `get_queryset` for the search
+    * Changes in:
+      * `polls/urls.py`
+      * `polls/views.py`
+      * `polls/templates/polls/index.html`
+    * New files:
+      * `templates/search_results.html`

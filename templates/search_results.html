@@ -1,0 +1,15 @@
+<h1>Search Results</h1>
+
+<ul>
+    {% for question in object_list %}
+        <li>
+            {% if question.question_text %}
+                <strong>Question</strong> -
+                {{ question.question_text }}
+            {% else %}
+                <strong>Choice</strong> -
+                {{ question.choice_text }} in Question "{{ question.question }}"
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

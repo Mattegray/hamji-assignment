@@ -1,10 +1,11 @@
 import requests
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from rest_framework import viewsets
+from itertools import chain
 
 from utils.url import restify
 
@@ -136,6 +137,22 @@ def choice(request, question_id):
                   {'question': question,
                    'new_choice': new_choice,
                    'choice_form': choice_form})
+
+
+class SearchResultsView(generic.ListView):
+    model = Question, Choice
+    template_name = 'search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        questions = Question.objects.filter(
+            Q(question_text__icontains=query)
+        )
+        choices = Choice.objects.filter(
+            Q(choice_text__icontains=query)
+        )
+        object_list = chain(questions, choices)
+        return object_list
 
 # API
 # ===

@@ -1,10 +1,14 @@
+<form action="{% url 'polls:search_results' %}" method="get">
+    <input name="q" type="text" placeholder="Search...">
+</form>
 {% if latest_question_list %}
     <ul>
-    <li><a href="~">{{ "This question does not exist? (Should raise 404)" }}</a></li>
-    {% for question in latest_question_list %}
-        <li><a href={% url 'polls:detail' question.id %}>{{ question.question_text }}</a></li>
-    {% endfor %}
+        <li><a href="~">{{ "This question does not exist? (Should raise 404)" }}</a></li>
+        {% for question in latest_question_list %}
+            <li><a href={% url 'polls:detail' question.id %}>{{ question.question_text }}</a></li>
+        {% endfor %}
     </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
