@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_filters",
     'accounts',
     "polls.apps.PollsConfig",
+    "graphene_django",
 ]
 
 MIDDLEWARE = [

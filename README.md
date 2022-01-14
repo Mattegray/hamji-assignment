@@ -130,3 +130,11 @@ python manage.py runserver
       * `polls/templates/polls/index.html`
     * New files:
       * `templates/search_results.html`
+13. [x] Add graphene query and mutations
+    * Installed `graphene_django` in `settings.py` and added `graphql/` path in `urls.py`
+    * Created schema and added query and mutations for Question
+    * Changes in:
+      * `hamji/settings.py`
+      * `hamji/urls.py`
+    * New files:
+      * `polls/schema.py`
